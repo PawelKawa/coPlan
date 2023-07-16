@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +15,5 @@ use App\Http\Controllers\IndexController;
 |
 */
 Route::get('/', [IndexController::class, 'index']);
-Route::get('/second', [IndexController::class, 'second']);
+Route::get('/login', [AuthController::class, 'login']);
+

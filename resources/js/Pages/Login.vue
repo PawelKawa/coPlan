@@ -1,3 +1,3 @@
 <template>
-<p>this is login page</p>
-  </template>
+    <p>Second page</p>
+</template>

@@ -1,18 +1,17 @@
 
 <template>
-  <Link href="/">
-    Home
-  </Link>
-  <Link href="/login">
-    Login
-  </Link>
-   <p class="bg-red-500">
-     This is MainLayout below is slot for content
-   </p> 
-   <main class="bg-gray-600">
-     <slot />
-   </main>
-  <p class="bg-red-500">above is slot for content bg-gray-600</p>
+    <div class="flex justify-center gap-10 bg-black text-white py-4 text-2xl">
+        <Link href="/" class="">
+        Home
+        </Link>
+        <Link href="/login">
+        Login
+        </Link>
+    </div>
+
+    <main class="bg-gray-600">
+        <slot />
+    </main>
 </template>
 
 <script setup>

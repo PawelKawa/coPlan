@@ -1,6 +1,6 @@
 <template>
-  <p class="text-3xl font-bold underline">Main page</p>
-  <p>The message is: {{ message }}</p>
+    <p>Main page</p>
+    <p>The message is: {{ message }}</p>
 </template>
 
 <script setup>

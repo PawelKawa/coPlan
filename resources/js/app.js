@@ -4,6 +4,7 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import '../css/app.css'
 import MainLayout from '@/Layouts/MainLayout.vue'
+import { setupCalendar } from 'v-calendar';
 
 createInertiaApp({
     resolve: async (name) => {
@@ -17,6 +18,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(setupCalendar, {})
             .mount(el)
     },
 })

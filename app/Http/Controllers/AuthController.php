@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function login(){
-        return inertia('Login');
+        return inertia('Index',
+    [
+        //go to web dev vue and index chech attribute it will be there this message
+        'message' => "Hi from laravel, yo"
+    ]);
     }
 }

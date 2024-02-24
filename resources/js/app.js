@@ -2,6 +2,7 @@
 
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import '@fortawesome/fontawesome-free/css/all.css';
 import '../css/app.css'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import { setupCalendar } from 'v-calendar';

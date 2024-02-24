@@ -7,7 +7,7 @@
     
 <script>
 import { Calendar, DatePicker } from 'v-calendar';
-import 'v-calendar/style.css';
+// import 'v-calendar/style.css';
 import { debounce } from 'lodash';
 
 export default {
@@ -27,17 +27,17 @@ export default {
                     dot: true,
                     dates: [
                         // 0 is January, 1 is February
-                        new Date(2024, 0, 1),
-                        new Date(2024, 0, 10),
-                        new Date(2024, 0, 22),
+                        new Date(2024, 1, 1),
+                        new Date(2024, 1, 10),
+                        new Date(2024, 1, 22),
                     ],
                 },
                 {
                     dot: 'red',
                     dates: [
-                        new Date(2024, 0, 4),
-                        new Date(2024, 0, 10),
-                        new Date(2024, 0, 15),
+                        new Date(2024, 1, 4),
+                        new Date(2024, 1, 10),
+                        new Date(2024, 1, 15),
                     ],
                 },
             ]

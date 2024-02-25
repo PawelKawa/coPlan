@@ -8,7 +8,7 @@
     </div>
 
     <main class="bg-gray-600">
-        <div class="max-w-screen-lg mx-auto h-screen">
+        <div class="max-w-screen-lg mx-auto h-screen py-8">
             <slot />
         </div>
     </main>

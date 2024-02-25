@@ -1,5 +1,100 @@
 <template>
-    <div>
-        Shoppign list here
+    <div class="bg-white p-4 rounded-xl">
+        <div class="flex gap-5">
+            <button @click="showNextTimeList = true" class="w-1/2 p-2 bg-green-300 rounded" :class="{ 'underline text-xl': showNextTimeList }">next time</button>
+            <button @click="showNextTimeList = false" class="w-1/2 p-2 bg-green-300 rounded" :class="{ 'underline text-xl': !showNextTimeList }">some time</button>
+        </div>
+
+        <div v-if="showNextTimeList">
+            <div class="mt-8 flex gap-5">
+                <input class="border w-full px-2 py-1" type="text" v-model="nextItem" @keydown.enter="addNextTimeItem(nextItem)">
+                <button @click="addNextTimeItem(nextItem)" class="w-40 bg-green-200 py-2 text-center rounded">
+                    Add Item
+                </button>
+            </div>
+            <ul class="mt-8">
+                <li class="my-2 flex justify-between p-2 bg-gray-400 cursor-pointer" v-for="(item, index) in nextTimeList" :key="index"
+                    @click="toggleInBasket(index)">
+                    <p :class="{ 'line-through': item.inBasket }">
+                        {{ index + 1 }}. {{ item.text }}
+                    </p>
+                    <div class="w-6 h-6  flex justify-center items-center" :class="item.inBasket ? 'bg-green-600' : 'bg-white'">
+                        <i v-if="item.inBasket" class="fa-solid fa-check text-white"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div v-else>
+            <div class="mt-8 flex gap-5">
+                <input class="border w-full px-2 py-1" type="text" v-model="someItem" @keydown.enter="addSomeTimeItem(someItem)">
+                <button @click="addSomeTimeItem(someItem)" class="w-40 bg-green-200 py-2 text-center rounded">
+                    Add Item
+                </button>
+            </div>
+            <ul class="mt-8">
+                <li class="my-2 flex justify-between p-2 bg-gray-400 cursor-pointer" v-for="(item, index) in someTimeList" :key="index"
+                    @click="toggleInBasket(index)">
+                    <p :class="{ 'line-through': item.inBasket }">
+                        {{ index + 1 }}. {{ item.text }}
+                    </p>
+                    <div class="w-6 h-6  flex justify-center items-center" :class="item.inBasket ? 'bg-green-600' : 'bg-white'">
+                        <i v-if="item.inBasket" class="fa-solid fa-check text-white"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mt-8 flex justify-center">
+            <button @click="saveShopping" class="bg-green-700 py-1 px-4 text-white rounded">
+                Save Shopping list
+            </button>
+        </div>
     </div>
 </template>
+
+<script>
+export default {
+    name: 'shopping',
+    data() {
+        return {
+            showNextTimeList: true,
+            nextItem: '',
+            someItem: '',
+            nextTimeList: [],
+            someTimeList: [],
+        }
+    },
+    methods: {
+        addNextTimeItem(item) {
+            if (item.trim() !== '') {
+                this.nextTimeList.push({ text: item, inBasket: false });
+                this.nextItem = '';
+            }
+        },
+        addSomeTimeItem(item) {
+            if (item.trim() !== '') {
+                this.someTimeList.push({ text: item, inBasket: false });
+                this.someItem = '';
+            }
+        },
+        toggleInBasket(index) {
+            const list = this.showNextTimeList ? this.nextTimeList : this.someTimeList;
+            const item = list.splice(index, 1)[0]; // Remove item from current position
+            item.inBasket = !item.inBasket; // Toggle inBasket flag
+            if (item.inBasket) {
+                list.push(item); // Move item to the bottom if it's in basket
+            } else {
+                list.unshift(item); // Move item to the top if it's not in basket
+            }
+        },
+        saveShopping() {
+            const nextItemsNotInBasket = this.nextTimeList.filter(item => !item.inBasket).map(item => item.text);
+            console.log('Next items not in basket:', nextItemsNotInBasket);
+
+            const someItemsInBasket = this.someTimeList.filter(item => !item.inBasket).map(item => item.text);
+            console.log('Some items in basket:', someItemsInBasket);
+        },
+    },
+}
+</script>

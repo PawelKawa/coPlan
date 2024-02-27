@@ -19,6 +19,7 @@ use App\Http\Controllers\WorkController;
 */
 Route::get('/', [AuthController::class, 'login']);
 Route::get('/calendar', [CalendarController::class, 'calendar']);
-Route::get('shopping', [ShoppingController::class, 'shopping']);
+Route::get('/shopping', [ShoppingController::class, 'getShopping']);
+Route::post('/shopping/update', [ShoppingController::class, 'updateShoppingList']);
 Route::get('/work', [WorkController::class, 'work']);
 

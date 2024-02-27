@@ -51,18 +51,28 @@
             </button>
         </div>
     </div>
+    <div>nextTimeList {{nextTimeList }}</div>
+    <div>someTimeList {{someTimeList }}</div>
+
 </template>
 
 <script>
+import { Link } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3'
 export default {
     name: 'shopping',
+    components:{
+        Link,
+    },
+    props: {
+        nextTimeList:Object,
+        someTimeList:Object,
+    },
     data() {
         return {
             showNextTimeList: true,
             nextItem: '',
             someItem: '',
-            nextTimeList: [],
-            someTimeList: [],
         }
     },
     methods: {
@@ -80,20 +90,25 @@ export default {
         },
         toggleInBasket(index) {
             const list = this.showNextTimeList ? this.nextTimeList : this.someTimeList;
-            const item = list.splice(index, 1)[0]; // Remove item from current position
-            item.inBasket = !item.inBasket; // Toggle inBasket flag
+            const item = list.splice(index, 1)[0]; 
+            item.inBasket = !item.inBasket; 
             if (item.inBasket) {
-                list.push(item); // Move item to the bottom if it's in basket
+                list.push(item); 
             } else {
-                list.unshift(item); // Move item to the top if it's not in basket
+                list.unshift(item); 
             }
         },
-        saveShopping() {
+        async saveShopping() {
             const nextItemsNotInBasket = this.nextTimeList.filter(item => !item.inBasket).map(item => item.text);
-            console.log('Next items not in basket:', nextItemsNotInBasket);
-
-            const someItemsInBasket = this.someTimeList.filter(item => !item.inBasket).map(item => item.text);
-            console.log('Some items in basket:', someItemsInBasket);
+            const someItemsNotInBasket = this.someTimeList.filter(item => !item.inBasket).map(item => item.text);
+            const shoppingList = {
+                nextItems: nextItemsNotInBasket,
+                someItems: someItemsNotInBasket,
+            };
+            console.log(shoppingList);
+            // this.$inertia.post('/shopping', shoppingList);
+            router.post('/shopping/update', shoppingList);
+            // router.reload('/shopping');
         },
     },
 }

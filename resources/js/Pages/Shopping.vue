@@ -1,8 +1,8 @@
 <template>
     <div class="bg-white p-4 rounded-xl">
         <div class="flex gap-5">
-            <button @click="showNextTimeList = true" class="w-1/2 p-2 bg-green-300 rounded" :class="{ 'underline text-xl': showNextTimeList }">next time</button>
-            <button @click="showNextTimeList = false" class="w-1/2 p-2 bg-green-300 rounded" :class="{ 'underline text-xl': !showNextTimeList }">some time</button>
+            <button @click="showNextTimeList = true" class="w-1/2 p-2 bg-blue-300 rounded" :class="{ 'underline text-xl': showNextTimeList }">next time</button>
+            <button @click="showNextTimeList = false" class="w-1/2 p-2 bg-blue-300 rounded" :class="{ 'underline text-xl': !showNextTimeList }">some time</button>
         </div>
 
         <div v-if="showNextTimeList">
@@ -51,8 +51,6 @@
             </button>
         </div>
     </div>
-    <div>nextTimeList {{nextTimeList }}</div>
-    <div>someTimeList {{someTimeList }}</div>
 
 </template>
 

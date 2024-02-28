@@ -17,9 +17,19 @@ use App\Http\Controllers\WorkController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [AuthController::class, 'login']);
-Route::get('/calendar', [CalendarController::class, 'calendar']);
-Route::get('/shopping', [ShoppingController::class, 'getShopping']);
-Route::post('/shopping/update', [ShoppingController::class, 'updateShoppingList']);
-Route::get('/work', [WorkController::class, 'work']);
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'logintwo']);
+Route::delete('/logout', [AuthController::class, 'destroy']);
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/calendar', [CalendarController::class, 'calendar']);
+    Route::get('/shopping', [ShoppingController::class, 'getShopping']);
+    Route::post('/shopping/update', [ShoppingController::class, 'updateShoppingList']);
+    Route::get('/work', [WorkController::class, 'work']);
+});
+
 

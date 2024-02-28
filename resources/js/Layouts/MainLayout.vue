@@ -5,6 +5,7 @@
         <Link href="/calendar">Calendar</Link>
         <Link href="/shopping">Shopping</Link>
         <Link href="/work">Work</Link>
+        <div v-if="$page.props.user" class="text-xs">Hello {{ $page.props.user }}</div>
     </div>
     
     <main class="bg-gray-600">

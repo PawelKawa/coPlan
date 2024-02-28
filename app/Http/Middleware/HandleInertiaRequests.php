@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -43,6 +44,7 @@ class HandleInertiaRequests extends Middleware
                 // 'warning' => $request->session()->get('warning'),
                 'error' => $request->session()->get('error'),
             ],
+            'user' => Auth::user() ? Auth::user()->name : null
         ]);
     }
 }

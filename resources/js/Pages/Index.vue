@@ -1,24 +1,19 @@
 <template>
     <div>
-        <div class="w-60 mx-auto bg-green-200">
-            <div>
-                <label for="username">username</label>
-                <input type="text" id="username" class="border">
-            </div>
-            <div>
-                <label for="password">password</label>
-                <input type="password" id="password" class="border">
-            </div>
-        </div>
+        <Link href="/register">Register here</Link>
+        <Link href="/login">Login here</Link>
+        <Link href="/logout" method="delete" as="button">Logout</Link>
     </div>
 </template>
 
-<script setup>
+<script>
+import { Link } from '@inertiajs/vue3';
+export default{
+    name: 'Homepage',
+    components:{
+        Link
+    },
 
-defineProps({
-    //message is writen in backend indexController
-    message: String,
-})
-
+}
 </script>
 

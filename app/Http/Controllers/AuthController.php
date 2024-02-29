@@ -52,8 +52,8 @@ class AuthController extends Controller
         }
 
         $request->session()->regenerate();
-
-        return redirect()->intended('/shopping')->with('success', 'logged in');
+        //intended will redirect you back where you come from, with this parameter it will redirect you to web.php name('homepage')
+        return redirect()->intended(route('homepage'))->with('success', 'logged in');
     }
 
     public function destroy(Request $request)

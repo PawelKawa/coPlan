@@ -18,17 +18,18 @@ use App\Http\Controllers\WorkController;
 |
 */
 
-Route::get('/', [AuthController::class, 'index']);
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::delete('/logout', [AuthController::class, 'destroy']);
+Route::get('/', [AuthController::class, 'index'])->name('homepage');
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::delete('/logout', [AuthController::class, 'destroy'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function(){
-    Route::get('/calendar', [CalendarController::class, 'calendar']);
-    Route::get('/shopping', [ShoppingController::class, 'getShopping']);
-    Route::post('/shopping/update', [ShoppingController::class, 'updateShoppingList']);
+    Route::get('/calendar', [CalendarController::class, 'calendar'])->name('calendar');
+    Route::get('/shopping', [ShoppingController::class, 'getShopping'])->name('shopping');
+    Route::post('/shopping', [ShoppingController::class, 'updateShoppingList'])->name('shopping.update');
+    //it has no name and yet working in MainLayout.vue there is no route, if added then here it needs name
     Route::get('/work', [WorkController::class, 'work']);
 });
 

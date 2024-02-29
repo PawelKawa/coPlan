@@ -18,11 +18,11 @@ use App\Http\Controllers\WorkController;
 |
 */
 
-Route::get('/', [AuthController::class, 'login']);
+Route::get('/', [AuthController::class, 'index']);
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'logintwo']);
+Route::post('/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'destroy']);
 
 Route::group(['middleware' => 'auth'], function(){

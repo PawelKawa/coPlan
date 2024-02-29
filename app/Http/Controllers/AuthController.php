@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login(){
+    public function index(){
         return inertia('Index',
     [
         //go to web dev vue and index chech attribute it will be there this message
@@ -39,21 +39,21 @@ class AuthController extends Controller
 
         //password is hashed already
         
-        return redirect()->intended('Shopping')->with('success', 'Account created');
+        return redirect()->intended()->with('success', 'Account created');
     }
-    public function logintwo(Request $request){
+    public function login(Request $request){
         if (!Auth::attempt($request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string'
         ]), true)) {
             throw ValidationException::withMessages([
-                'email' => 'Authentication failed'
+                'password' => 'Authentication failed'
             ]);
         }
 
         $request->session()->regenerate();
 
-        return redirect()->intended('calendar')->with('success', 'logged in');
+        return redirect()->intended('/shopping')->with('success', 'logged in');
     }
 
     public function destroy(Request $request)
@@ -63,7 +63,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->back()->with('success', 'logged out');
+        return redirect()->route('login')->with('success', 'logged out');
     }
 
 

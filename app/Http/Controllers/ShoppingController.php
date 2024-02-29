@@ -11,26 +11,32 @@ class ShoppingController extends Controller
 {
     public function getShopping()
     {
+
         $nextListJson = Shopping::where('id', 1)->value('next_items');
         $nextListArray = json_decode($nextListJson, true);
         $newNextListArray = [];
-        foreach ($nextListArray as $item) {
-            $newItem = [
-                'text' => $item,
-                'inBasket' => false, 
-            ];
-            $newNextListArray[] = $newItem;
+        if($nextListArray !== null){
+            foreach ($nextListArray as $item) {
+                $newItem = [
+                    'text' => $item,
+                    'inBasket' => false, 
+                ];
+                $newNextListArray[] = $newItem;
+            }
         }
 
         $someListJson = Shopping::where('id', 1)->value('some_items');
         $someListArray = json_decode($someListJson, true);
         $newSomeListArray = [];
-        foreach ($someListArray as $item) {
-            $newItem = [
-                'text' => $item,
-                'inBasket' => false, 
-            ];
-            $newSomeListArray[] = $newItem;
+        if($someListArray!== null){
+
+            foreach ($someListArray as $item) {
+                $newItem = [
+                    'text' => $item,
+                    'inBasket' => false, 
+                ];
+                $newSomeListArray[] = $newItem;
+            }
         }
 
         return inertia('Shopping', [

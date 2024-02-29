@@ -2,10 +2,17 @@
 <template>
     <div class="flex justify-center gap-10 bg-black text-white py-4 text-2xl">
         <Link href="/">Home</Link>
-        <Link href="/calendar">Calendar</Link>
-        <Link href="/shopping">Shopping</Link>
-        <Link href="/work">Work</Link>
-        <div v-if="$page.props.user" class="text-xs">Hello {{ $page.props.user }}</div>
+        <div v-if="$page.props.user" class="flex gap-10">
+            <Link href="/calendar">Calendar</Link>
+            <Link href="/shopping">Shopping</Link>
+            <Link href="/work">Work</Link>
+            <div class="text-xs">Hello {{ $page.props.user }}</div>
+            <Link href="/logout" method="delete" as="button">Logout</Link>
+        </div>
+        <div v-else class="flex gap-10">
+            <Link href="/register">Register</Link>
+            <Link href="/login">Login</Link>
+        </div>
     </div>
     
     <main class="bg-gray-600">

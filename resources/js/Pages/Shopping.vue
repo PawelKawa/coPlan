@@ -103,10 +103,8 @@ export default {
                 nextItems: nextItemsNotInBasket,
                 someItems: someItemsNotInBasket,
             };
-            console.log(shoppingList);
-            // this.$inertia.post('/shopping', shoppingList);
-            router.post('/shopping/update', shoppingList);
-            // router.reload('/shopping');
+            //vscode doesn't understand route, but it is working
+            router.post(route('shopping.update', shoppingList));
         },
     },
 }

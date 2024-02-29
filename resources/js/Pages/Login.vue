@@ -1,5 +1,6 @@
 <template>
-    <form @submit.prevent="form.post('/login')" class="flex justify-center">
+    <!-- form.post is inertia helper, route('login') is ziggy package, allows to use names from web.php -->
+    <form @submit.prevent="form.post(route('login'))" class="flex justify-center">
         <div class="w-full max-w-md p-6 bg-white rounded-md shadow-md">
             <h1 class="text-2xl font-bold mb-6">Login</h1>
             <div>
@@ -18,7 +19,7 @@
         </div>
     </form>
     <div class="mt-8 text-center">
-        <Link href="/register" class="text-sm py-1 px-4 bg-white rounded">Need to register? Click here!</Link>
+        <Link :href="route('register.form')" class="text-sm py-1 px-4 bg-white rounded">Need to register? Click here!</Link>
     </div>
 </template>
 

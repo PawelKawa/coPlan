@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="form.post('/register')" class="flex justify-center">
+    <form @submit.prevent="form.post(route('register'))" class="flex justify-center">
         <div class="w-full max-w-md p-6 bg-white rounded-md shadow-md">
             <h1 class="text-2xl font-bold mb-6">Register</h1>
             <div class="mb-4">
@@ -27,7 +27,7 @@
         </div>
     </form>
     <div class="mt-8 text-center">
-        <Link href="/login" class="text-sm py-1 px-4 bg-white rounded">Already register? Click here!</Link>
+        <Link :href="route('login.form')" class="text-sm py-1 px-4 bg-white rounded">Already register? Click here!</Link>
     </div>
     <div v-if="$page.props.user">{{ $page.props.user }}</div>
 </template>

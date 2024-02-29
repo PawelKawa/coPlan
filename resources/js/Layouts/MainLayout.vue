@@ -1,17 +1,19 @@
 
 <template>
     <div class="flex justify-center gap-10 bg-black text-white py-4 text-2xl">
-        <Link href="/">Home</Link>
-        <div v-if="$page.props.user" class="flex gap-10">
-            <Link href="/calendar">Calendar</Link>
-            <Link href="/shopping">Shopping</Link>
-            <Link href="/work">Work</Link>
-            <div class="text-xs">Hello {{ $page.props.user }}</div>
-            <Link href="/logout" method="delete" as="button">Logout</Link>
+        <Link :href="route('homepage')">Home</Link>
+        <div v-if="user" class="flex gap-10">
+            <Link :href="route('calendar')">Calendar</Link>
+            <Link :href="route('shopping')">Shopping</Link>
+            <!-- if it will stop working its because there is no route word and no name in web.php !! -->
+            <Link :href="('work')">Work</Link>                     
+            <!-- if add route, but no name in web.php it will not work, no route word no name in web.php, working !! -->
+            <div class="text-xs">Hello {{ user }}</div>
+            <Link :href="route('logout')" method="delete" as="button">Logout</Link>
         </div>
         <div v-else class="flex gap-10">
-            <Link href="/register">Register</Link>
-            <Link href="/login">Login</Link>
+            <Link :href="route('register.form')">Register</Link>
+            <Link :href="route('login.form')">Login</Link>
         </div>
     </div>
     
@@ -49,6 +51,9 @@ export default{
         flashError() {
             return this.$page.props.flash.error
         },
+        user(){
+            return this.$page.props.user
+        }
     }
 }
 

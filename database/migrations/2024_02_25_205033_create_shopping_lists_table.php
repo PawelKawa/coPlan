@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('shopping_lists', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->json('next_items')->nullable();
             $table->json('some_items')->nullable();
             $table->timestamps();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shopping;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -12,7 +13,7 @@ class ShoppingController extends Controller
     public function getShopping()
     {
 
-        $nextListJson = Shopping::where('id', 1)->value('next_items');
+        $nextListJson = Shopping::where('user_id', Auth::id())->value('next_items');
         $nextListArray = json_decode($nextListJson, true);
         $newNextListArray = [];
         if($nextListArray !== null){
@@ -25,7 +26,7 @@ class ShoppingController extends Controller
             }
         }
 
-        $someListJson = Shopping::where('id', 1)->value('some_items');
+        $someListJson = Shopping::where('user_id', Auth::id())->value('some_items');
         $someListArray = json_decode($someListJson, true);
         $newSomeListArray = [];
         if($someListArray!== null){
@@ -51,14 +52,14 @@ class ShoppingController extends Controller
         $someItems = $request->input('someItems');
     
         // Check if the next and some items are different from the current ones
-        $currentNextItems = Shopping::where('id', 1)->value('next_items');
+        $currentNextItems = Shopping::where('user_id', Auth::id())->value('next_items');
         $currentNextItemsArray = json_decode($currentNextItems, true);
-        $currentSomeItems = Shopping::where('id', 1)->value('some_items');
+        $currentSomeItems = Shopping::where('user_id', Auth::id())->value('some_items');
         $currentSomeItemsArray = json_decode($currentSomeItems, true);
     
         if ($nextItems !== $currentNextItemsArray || $someItems !== $currentSomeItemsArray) {
             // Update the shopping list only if there are changes
-            Shopping::where('id', 1)->update([
+            Shopping::where('user_id', Auth::id())->update([
                 'next_items' => $nextItems,
                 'some_items' => $someItems,
             ]);

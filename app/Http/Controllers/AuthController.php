@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shopping;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -34,11 +36,14 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed'
         ]));
-
-        Auth::login($user);
-
-        //password is hashed already
         
+        Shopping::create([
+            'user_id' => $user->id,
+            'next_items' => null,
+            'some_items' => null,
+        ]);
+        
+        Auth::login($user);
         return redirect()->intended()->with('success', 'Account created');
     }
     public function login(Request $request){

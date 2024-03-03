@@ -16,4 +16,9 @@ class Shopping extends Model
         'next_items',
         'some_items',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

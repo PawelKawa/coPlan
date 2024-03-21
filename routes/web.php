@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\FinderItemsController;
 use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\WorkController;
 
@@ -31,6 +32,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/shopping', [ShoppingController::class, 'updateShoppingList'])->name('shopping.update');
     //it has no name and yet working in MainLayout.vue there is no route, if added then here it needs name
     Route::get('/work', [WorkController::class, 'work']);
+    Route::get('/finder', [FinderItemsController::class, 'getItems'])->name('finder');
 });
 
 

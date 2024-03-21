@@ -5,10 +5,8 @@
         <div v-if="user" class="flex gap-10">
             <Link :href="route('calendar')">Calendar</Link>
             <Link :href="route('shopping')">Shopping</Link>
-            <!-- if it will stop working its because there is no route word and no name in web.php !! -->
-            <Link :href="('work')">Work</Link>                     
-            <!-- if add route, but no name in web.php it will not work, no route word no name in web.php, working !! -->
-            <!-- <Link :href="route('finder')">Finder</Link> -->
+            <Link :href="route('work')">Work</Link>                     
+            <Link :href="route('finder')">Finder</Link>
             <div class="text-xs">Hello {{ user }}</div>
             <Link :href="route('logout')" method="delete" as="button">Logout</Link>
         </div>

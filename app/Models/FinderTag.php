@@ -11,6 +11,11 @@ class FinderTag extends Model
 
     protected $table = 'finder_tags';
 
+    protected $fillable = [
+        'tag',
+        'user_id',
+    ];
+
     public function items()
     {
         return $this->belongsToMany(FinderItem::class, 'finder_item_tag', 'tag_id', 'item_id');

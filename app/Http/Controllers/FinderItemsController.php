@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FinderItem;
+use App\Models\FinderTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -33,6 +34,18 @@ class FinderItemsController extends Controller
         $item->location = $validatedData['location'];
         $item->location_description = $validatedData['locationDescription'];
         $item->save();
+
+        $tags = $validatedData['tags'];
+        foreach ($tags as $tagName) {
+            // Find or create the tag
+            $tag = FinderTag::firstOrCreate(['tag' => $tagName, 'user_id' => Auth::id()]);
+    
+            // Attach the tag to the item with user_id
+            $item->tags()->attach($tag->id, ['user_id' => Auth::id()]);
+        }
+
+        return redirect()->back()->with('success', 'Added item successfully');
+
 
         
     }

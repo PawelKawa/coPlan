@@ -2,7 +2,9 @@
     <div class="flex justify-center">
         <div class="w-full max-w-md p-6 bg-white rounded-md shadow-md">
             <h2 class="text-xl font-semibold mb-4">Add Item</h2>
-            <form @submit.prevent="form.post(route('finder.update'))">
+            <!-- with helper (useForm) -->
+            <!-- <form @submit.prevent="form.post(route('finder.update'))"> -->
+            <form @submit.prevent="submit">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="itemName">Item Name<span class="text-red-500">*</span></label>
                     <input v-model="form.itemName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="itemName" type="text" placeholder="Enter item name">
@@ -37,7 +39,7 @@
 </template>
 
 <script>
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 
 export default {
     data() {
@@ -53,8 +55,12 @@ export default {
         };
     },
     methods: {
-        addItem() {
-
+        submit() {
+            router.post(route('finder.update'), this.form, {
+                onSuccess: () => {
+                    this.resetForm();
+                },
+            });
         },
         addTag() {
             if (this.tagInput.trim() !== '') {
@@ -64,7 +70,14 @@ export default {
         },
         removeTag(index) {
             this.tags.splice(index, 1);
-        }
+        },
+        resetForm() {
+            this.form.itemName = '';
+            this.form.itemDescription = '';
+            this.form.location = '';
+            this.form.locationDescription = '';
+            this.form.tags = [];
+        },
     }
 };
 </script>

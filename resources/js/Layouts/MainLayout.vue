@@ -55,6 +55,7 @@ export default {
         flashError() {
             return this.$page.props.flash.error
         },
+        //this error is for validation, i guess
         errors() {
             return this.$page.props.errors
         },

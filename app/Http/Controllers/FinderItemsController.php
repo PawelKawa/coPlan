@@ -12,7 +12,16 @@ class FinderItemsController extends Controller
 {
     public function showItems(Request $request)
     {
-        return inertia('Finder');
+        return inertia('Finder/Index');
+    }
+    public function addItem(Request $request)
+    {
+        return inertia('Finder/Add');
+
+    }
+    public function searchItem(Request $request)
+    {
+        return inertia('Finder/Search');
     }
     public function updateFinder(Request $request)
     {

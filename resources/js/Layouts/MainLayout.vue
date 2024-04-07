@@ -5,7 +5,7 @@
             <!-- <Link :href="route('calendar')">Calendar</Link> -->
             <Link :href="route('shopping')">Shopping</Link>
             <!-- <Link :href="route('work')">Work</Link> -->
-            <Link :href="route('finder.show.list')">Finder</Link>
+            <Link :href="route('finder')">Finder</Link>
             <div class="text-xs">Hello {{ user }}</div>
             <Link :href="route('logout')" method="delete" as="button">Logout</Link>
         </div>

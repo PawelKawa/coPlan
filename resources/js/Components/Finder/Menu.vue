@@ -1,8 +1,7 @@
 <template>
-        <div class="flex justify-between w-full max-w-md mx-auto">
+        <div class="flex justify-around w-full max-w-md mx-auto">
+            <Link :href="route('finder')">List of items</Link>
             <Link :href="route('finder.show.add')">Add item</Link>
-            <Link :href="route('finder.show.list')">List of items</Link>
-            <Link :href="route('finder.show.search')">Search item</Link>
         </div>
 </template>
 

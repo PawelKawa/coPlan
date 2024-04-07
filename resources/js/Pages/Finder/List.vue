@@ -2,6 +2,12 @@
 
     <FinderMenu></FinderMenu>
 
+    <form @submit.prevent="submit" class="flex justify-center items-center mt-4 gap-4">
+        <label for="search">Search for item:</label>
+        <input type="text" id="search" class="p-1" v-model="search" placeholder="Search with at least 3 characters">
+        <button type="submit">Search</button>
+    </form>
+
     <div class="w-full overflow-x-auto px-2">
         <ul class="mt-4 w-full border border-gray-400 text-white shadow-md rounded-lg">
             <li class="flex items-center px-4 py-2 border-b border-white gap-1">
@@ -36,17 +42,14 @@
             </li>
         </ul>
     </div>
-
-
-
-
+    
 </template>
 
 
 
 <script>
 import FinderMenu from "../../Components/Finder/Menu.vue"
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 export default {
     components: {
@@ -57,10 +60,17 @@ export default {
     },
     data() {
         return {
-
+            search: '',
         };
     },
     methods: {
+        submit() {
+            if (this.search.length >= 3) {
+                router.get(route('finder.search', { search: this.search }))
+            } else {
+                this.$page.props.flash.info = 'Type 3 characters at leaset to search'
+            }
+        },
         showItemsWithTag(id) {
             console.log(id);
         },

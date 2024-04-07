@@ -11,18 +11,43 @@ use Illuminate\Support\Facades\Redirect;
 
 class FinderItemsController extends Controller
 {
+    private function formatTags($all_items)
+    {
+        $formattedItems = [];
+        foreach ($all_items as $item) {
+            $formattedTags = [];
+            foreach ($item->tags as $tag) {
+                $formattedTags[] = [
+                    'id' => $tag->id,
+                    'name' => $tag->tag,
+                ];
+            }
+            $formattedItems[] = [
+                'id' => $item->id,
+                'item' => $item->item,
+                'item_description' => $item->item_description,
+                'location' => $item->location,
+                'location_description' => $item->location_description,
+                'tags' => $formattedTags,
+            ];
+        }
+        return $formattedItems;
+    }
+
     public function finder(Request $request)
     {
-        //this will redriect user to /finder/list if it types /finder in url bar 
-        return to_route('finder.show.list');
+        $items = FinderItem::with('tags')->where('user_id', Auth::id())->get();
+    
+        $formattedItems = $this->formatTags($items);
+
+        return inertia('Finder/Index', [
+            'items' => $formattedItems
+        ]);
+
     }
     public function showAddItem(Request $request)
     {
         return inertia('Finder/Add');
-    }
-    public function showSearchItem(Request $request)
-    {
-        return inertia('Finder/Search');
     }
     public function showEditItem(Request $request)
     {
@@ -77,18 +102,7 @@ class FinderItemsController extends Controller
             $item->tags()->attach($tag->id, ['user_id' => Auth::id()]);
         }
 
-        return Redirect::route('finder.show.list')->with('success', 'Item added successfully');
-    }
-
-    public function showListItem()
-    {
-        $items = FinderItem::with('tags')->where('user_id', Auth::id())->get();
-    
-        $formattedItems = $this->formatTags($items);
-    
-        return inertia('Finder/List', [
-            'items' => $formattedItems
-        ]);
+        return Redirect::route('finder')->with('success', 'Item added successfully');
     }
 
     public function updateItem(Request $request){
@@ -122,36 +136,15 @@ class FinderItemsController extends Controller
             // Attach the tag to the item with user_id
             $item->tags()->attach($tag->id, ['user_id' => Auth::id()]);
         }
-        return Redirect::route('finder.show.list')->with('success', 'Item Updated successfully');
+        return Redirect::route('finder')->with('success', 'Item Updated successfully');
     }
 
-    private function formatTags($all_items)
-    {
-        $formattedItems = [];
-        foreach ($all_items as $item) {
-            $formattedTags = [];
-            foreach ($item->tags as $tag) {
-                $formattedTags[] = [
-                    'id' => $tag->id,
-                    'name' => $tag->tag,
-                ];
-            }
-            $formattedItems[] = [
-                'id' => $item->id,
-                'item' => $item->item,
-                'item_description' => $item->item_description,
-                'location' => $item->location,
-                'location_description' => $item->location_description,
-                'tags' => $formattedTags,
-            ];
-        }
-        return $formattedItems;
-    }
+
 
     public function searchItem(Request $request)
     {
         $search = $request->search;
-        
+
         //provided by tabnine AI
         $items = FinderItem::with('tags')
         ->where('user_id', Auth::id())
@@ -171,7 +164,7 @@ class FinderItemsController extends Controller
             return redirect()->back()->with('info', 'Found nothing...');
 
         }
-        return inertia('Finder/Search', [
+        return inertia('Finder/Index', [
             'items' => $formattedItems
         ]);
     }

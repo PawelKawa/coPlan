@@ -23,6 +23,9 @@
                 <th class="text-sm font-medium text-left px-4 py-2 border-b border-gray-500 bg-gray-700">
                     Tags
                 </th>
+                <th class="text-sm font-medium text-left px-4 py-2 border-b border-gray-500 bg-gray-700">
+                    Actions
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -47,9 +50,18 @@
                         {{ tag.name }}
                     </div>
                 </td>
+                <td class="text-sm text-gray-200 px-4 py-2 border-b border-gray-500 flex justify-end">
+                    <Link class="mr-2 cursor-pointer text-blue-500 hover:text-blue-700" :href="route('finder.show.edit', {id:item.id} )" method="PATCH" as="Button">
+                        <i class="fas fa-edit"></i>
+                    </Link>
+                    <span class="cursor-pointer text-red-500 hover:text-red-700" @click="deleteItem(item.id)">
+                        <i class="fas fa-trash-alt"></i>
+                    </span>
+                </td>
             </tr>
         </tbody>
     </table>
+
 
 </template>
 
@@ -77,6 +89,12 @@ export default {
         },
         showItemsInLocation(location) {
             console.log(location);
+        },
+        editItem(id) {
+            console.log(id);
+        },
+        deleteItem(id) {
+            console.log(id);
         },
     }
 };

@@ -34,11 +34,12 @@ Route::group(['middleware' => 'auth'], function(){
     
     Route::get('/work', [WorkController::class, 'work'])->name('work');
 
-    Route::get('/finder', [FinderItemsController::class, 'showItems'])->name('finder');
+    Route::get('/finder', [FinderItemsController::class, 'finder'])->name('finder.show');
     Route::get('/finder/add', [FinderItemsController::class, 'addItem'])->name('finder.show.add');
     Route::get('/finder/search', [FinderItemsController::class, 'searchItem'])->name('finder.show.search');
     Route::get('/finder/list', [FinderItemsController::class, 'listItem'])->name('finder.show.list');
-    Route::post('/finder', [FinderItemsController::class, 'updateFinder'])->name('finder.update');
+    Route::patch('/finder/edit/{id}', [FinderItemsController::class, 'editItem'])->name('finder.show.edit');
+    Route::post('/finder', [FinderItemsController::class, 'createItem'])->name('finder.create');
 });
 
 

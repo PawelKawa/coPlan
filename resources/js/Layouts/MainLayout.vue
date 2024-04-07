@@ -2,10 +2,10 @@
     <div class="flex justify-center gap-10 bg-black text-white py-4 text-2xl">
         <Link :href="route('homepage')">Home</Link>
         <div v-if="user" class="flex gap-10">
-            <Link :href="route('calendar')">Calendar</Link>
+            <!-- <Link :href="route('calendar')">Calendar</Link> -->
             <Link :href="route('shopping')">Shopping</Link>
-            <Link :href="route('work')">Work</Link>
-            <Link :href="route('finder')">Finder</Link>
+            <!-- <Link :href="route('work')">Work</Link> -->
+            <Link :href="route('finder.show.list')">Finder</Link>
             <div class="text-xs">Hello {{ user }}</div>
             <Link :href="route('logout')" method="delete" as="button">Logout</Link>
         </div>
@@ -16,18 +16,18 @@
     </div>
 
     <main class="bg-gray-600">
-        <div class="py-2">
+        <div>
             <div class="relative" v-if="flashSucces">
-                <div class="bg-green-200 p-1 text-center absolute w-full">{{ flashSucces }}</div>
+                <div class="bg-green-200 text-center absolute w-full">{{ flashSucces }}</div>
             </div>
             <div class="relative" v-if="flashInfo">
-                <div class="bg-blue-200 p-1 text-center absolute w-full">{{ flashInfo }}</div>
+                <div class="bg-blue-200 text-center absolute w-full">{{ flashInfo }}</div>
             </div>
             <div class="relative" v-if="flashError">
-                <div class="bg-red-200 p-1 text-center absolute w-full">{{ flashError }}</div>
+                <div class="bg-red-200 text-center absolute w-full">{{ flashError }}</div>
             </div>
             <div class="relative" v-if="Object.keys(errors).length > 0">
-                <div class="bg-red-200 p-1 text-center absolute w-full">
+                <div class="bg-red-200 text-center absolute w-full">
                     {{ errors[Object.keys(errors)[0]] }}
                 </div>
             </div>

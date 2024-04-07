@@ -10,20 +10,24 @@ use Illuminate\Support\Facades\Log;
 
 class FinderItemsController extends Controller
 {
-    public function showItems(Request $request)
+    public function finder(Request $request)
     {
-        return inertia('Finder/Index');
+        //this will redriect user to /finder/list if it types /finder in url bar 
+        return to_route('finder.show.list');
     }
     public function addItem(Request $request)
     {
         return inertia('Finder/Add');
-
     }
     public function searchItem(Request $request)
     {
         return inertia('Finder/Search');
     }
-    public function updateFinder(Request $request)
+    public function editItem(Request $request)
+    {
+        return inertia('Finder/Edit');
+    }
+    public function createItem(Request $request)
     {
 
         $validatedData = $request->validate(

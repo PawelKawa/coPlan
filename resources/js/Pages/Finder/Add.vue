@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         submit() {
-            router.post(route('finder.update'), this.form, {
+            router.post(route('finder.create'), this.form, {
                 onSuccess: () => {
                     this.resetForm();
                 },

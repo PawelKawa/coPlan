@@ -46,13 +46,6 @@ class FinderItemsSeeder extends Seeder
             ],
             [
                 'user_id' => 5,
-                'item' => 'Laptop',
-                'item_description' => 'Working Laptop',
-                'location' => 'Office',
-                'location_description' => 'On the desk',
-            ],
-            [
-                'user_id' => 5,
                 'item' => 'Desktop PC',
                 'item_description' => 'High-performance computer',
                 'location' => 'Office',

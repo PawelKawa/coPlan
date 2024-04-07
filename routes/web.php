@@ -35,12 +35,14 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/work', [WorkController::class, 'work'])->name('work');
 
     Route::get('/finder', [FinderItemsController::class, 'finder'])->name('finder.show');
-    Route::get('/finder/add', [FinderItemsController::class, 'addItem'])->name('finder.show.add');
-    Route::get('/finder/search', [FinderItemsController::class, 'searchItem'])->name('finder.show.search');
-    Route::get('/finder/list', [FinderItemsController::class, 'listItem'])->name('finder.show.list');
-    Route::get('/finder/edit/{id}', [FinderItemsController::class, 'editItem'])->name('finder.show.edit');
+    Route::get('/finder/add', [FinderItemsController::class, 'showAddItem'])->name('finder.show.add');
+    Route::get('/finder/search', [FinderItemsController::class, 'showSearchItem'])->name('finder.show.search');
+    Route::get('/finder/list', [FinderItemsController::class, 'showListItem'])->name('finder.show.list');
+    Route::get('/finder/edit/{id}', [FinderItemsController::class, 'showEditItem'])->name('finder.show.edit');
     Route::post('/finder/create', [FinderItemsController::class, 'createItem'])->name('finder.create');
     Route::patch('/finder/update', [FinderItemsController::class, 'updateItem'])->name('finder.update');
+    Route::get('/finder/search/item', [FinderItemsController::class, 'searchItem'])->name('finder.search');
+
 });
 
 

@@ -16,15 +16,15 @@ class FinderItemsController extends Controller
         //this will redriect user to /finder/list if it types /finder in url bar 
         return to_route('finder.show.list');
     }
-    public function addItem(Request $request)
+    public function showAddItem(Request $request)
     {
         return inertia('Finder/Add');
     }
-    public function searchItem(Request $request)
+    public function showSearchItem(Request $request)
     {
         return inertia('Finder/Search');
     }
-    public function editItem(Request $request)
+    public function showEditItem(Request $request)
     {
         $item = FinderItem::with('tags')->find($request->id);
     
@@ -80,7 +80,7 @@ class FinderItemsController extends Controller
         return Redirect::route('finder.show.list')->with('success', 'Item added successfully');
     }
 
-    public function listItem()
+    public function showListItem()
     {
         $items = FinderItem::with('tags')->where('user_id', Auth::id())->get();
     
@@ -123,8 +123,6 @@ class FinderItemsController extends Controller
             $item->tags()->attach($tag->id, ['user_id' => Auth::id()]);
         }
         return Redirect::route('finder.show.list')->with('success', 'Item Updated successfully');
-        
-
     }
 
     private function formatTags($all_items)
@@ -148,6 +146,34 @@ class FinderItemsController extends Controller
             ];
         }
         return $formattedItems;
+    }
+
+    public function searchItem(Request $request)
+    {
+        $search = $request->search;
+        
+        //provided by tabnine AI
+        $items = FinderItem::with('tags')
+        ->where('user_id', Auth::id())
+        ->where(function ($query) use ($search) {
+            $query->where('item', 'LIKE', '%' . $search . '%')
+                ->orWhereHas('tags', function ($query) use ($search) {
+                    $query->where('tag', 'LIKE', '%' . $search . '%');
+                });
+        })
+        ->get();
+        // $items = FinderItem::with('tags')->where('user_id', Auth::id())->where('item', 'LIKE', '%'. $search. '%')->get();
+
+        $formattedItems = $this->formatTags($items);
+
+        if($items->isEmpty()){
+            Log::info('not found');
+            return redirect()->back()->with('info', 'Found nothing...');
+
+        }
+        return inertia('Finder/Search', [
+            'items' => $formattedItems
+        ]);
     }
     
 }

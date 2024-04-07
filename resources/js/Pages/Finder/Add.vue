@@ -1,9 +1,7 @@
 <template>
     <div class=" w-full max-w-md mx-auto">
-        <div class="flex justify-between">
-            <Link :href="route('finder.show.add')">Add item</Link>
-            <Link :href="route('finder.show.search')">Search item</Link>
-        </div>
+        <FinderMenu></FinderMenu>
+
         <div class="p-6 bg-white rounded-md shadow-md mt-8">
             <h2 class="text-xl font-semibold mb-4">Add Item</h2>
             <!-- with helper (useForm) -->
@@ -43,10 +41,11 @@
 
 <script>
 import { router, useForm, Link } from '@inertiajs/vue3';
+import FinderMenu from "../../Components/Finder/Menu.vue"
 
 export default {
     components: {
-        Link,
+        Link, FinderMenu,
     },
     data() {
         return {

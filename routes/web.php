@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/finder', [FinderItemsController::class, 'showItems'])->name('finder');
     Route::get('/finder/add', [FinderItemsController::class, 'addItem'])->name('finder.show.add');
     Route::get('/finder/search', [FinderItemsController::class, 'searchItem'])->name('finder.show.search');
+    Route::get('/finder/list', [FinderItemsController::class, 'listItem'])->name('finder.show.list');
     Route::post('/finder', [FinderItemsController::class, 'updateFinder'])->name('finder.update');
 });
 

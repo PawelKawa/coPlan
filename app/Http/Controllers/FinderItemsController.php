@@ -25,7 +25,6 @@ class FinderItemsController extends Controller
     }
     public function updateFinder(Request $request)
     {
-        Log::info($request->all());
 
         $validatedData = $request->validate(
             [
@@ -60,4 +59,35 @@ class FinderItemsController extends Controller
 
         return redirect()->back()->with('success', 'Added item successfully');
     }
+
+    public function listItem()
+    {
+        $items = FinderItem::with('tags')->where('user_id', Auth::id())->get();
+    
+        // Transform the data to separate tags from items
+        $formattedItems = [];
+        foreach ($items as $item) {
+            $formattedTags = [];
+            foreach ($item->tags as $tag) {
+                $formattedTags[] = [
+                    'id' => $tag->id,
+                    'name' => $tag->tag,
+                    // Add any other necessary properties for the tag
+                ];
+            }
+            $formattedItems[] = [
+                'id' => $item->id,
+                'item' => $item->item,
+                'item_description' => $item->item_description,
+                'location' => $item->location,
+                'location_description' => $item->location_description,
+                'tags' => $formattedTags,
+            ];
+        }
+    
+        return inertia('Finder/List', [
+            'items' => $formattedItems
+        ]);
+    }
+    
 }

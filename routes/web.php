@@ -38,8 +38,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/finder/add', [FinderItemsController::class, 'addItem'])->name('finder.show.add');
     Route::get('/finder/search', [FinderItemsController::class, 'searchItem'])->name('finder.show.search');
     Route::get('/finder/list', [FinderItemsController::class, 'listItem'])->name('finder.show.list');
-    Route::patch('/finder/edit/{id}', [FinderItemsController::class, 'editItem'])->name('finder.show.edit');
+    Route::get('/finder/edit/{id}', [FinderItemsController::class, 'editItem'])->name('finder.show.edit');
     Route::post('/finder', [FinderItemsController::class, 'createItem'])->name('finder.create');
+    Route::patch('/finder/update', [FinderItemsController::class, 'updateItem'])->name('finder.update');
 });
 
 

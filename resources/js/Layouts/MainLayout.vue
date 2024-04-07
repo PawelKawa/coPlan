@@ -33,7 +33,7 @@
             </div>
 
         </div>
-        <div class="max-w-screen-lg mx-auto h-screen py-8">
+        <div class="max-w-screen-lg mx-auto min-h-screen py-8">
             <slot />
         </div>
     </main>

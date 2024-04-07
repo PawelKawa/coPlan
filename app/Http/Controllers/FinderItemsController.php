@@ -7,6 +7,7 @@ use App\Models\FinderTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 
 class FinderItemsController extends Controller
 {
@@ -25,7 +26,22 @@ class FinderItemsController extends Controller
     }
     public function editItem(Request $request)
     {
-        return inertia('Finder/Edit');
+        $item = FinderItem::with('tags')->find($request->id);
+    
+        $formattedTags = $item->tags->pluck('tag');
+    
+        $formattedItem = [
+            'id' => $item->id,
+            'item' => $item->item,
+            'item_description' => $item->item_description,
+            'location' => $item->location,
+            'location_description' => $item->location_description,
+            'tags' => $formattedTags,
+        ];
+    
+        return inertia('Finder/Edit', [
+            'item' => $formattedItem
+        ]);
     }
     public function createItem(Request $request)
     {
@@ -61,22 +77,65 @@ class FinderItemsController extends Controller
             $item->tags()->attach($tag->id, ['user_id' => Auth::id()]);
         }
 
-        return redirect()->back()->with('success', 'Added item successfully');
+        return Redirect::route('finder.show.list')->with('success', 'Item added successfully');
     }
 
     public function listItem()
     {
         $items = FinderItem::with('tags')->where('user_id', Auth::id())->get();
     
-        // Transform the data to separate tags from items
+        $formattedItems = $this->formatTags($items);
+    
+        return inertia('Finder/List', [
+            'items' => $formattedItems
+        ]);
+    }
+
+    public function updateItem(Request $request){
+        $validatedData = $request->validate(
+            [
+                'itemName' => 'required|string',
+                'itemDescription' => 'nullable|string',
+                'location' => 'required|string',
+                'locationDescription' => 'nullable|string',
+                'tags' => 'required|array|min:1', // Ensure 'tags' is an array with at least 1 item
+                'tags.*' => 'string', // Each tag must be a string
+            ],
+            [
+                'itemName.unique' => $request->itemName . ' is already in your collection'
+            ]
+        );
+
+        $item = FinderItem::find($request->id);
+
+        $item->item = $validatedData['itemName'];
+        $item->item_description = $validatedData['itemDescription'];
+        $item->location = $validatedData['location'];
+        $item->location_description = $validatedData['locationDescription'];
+        $item->save();
+        $item->tags()->detach();
+        $tags = $validatedData['tags'];
+        foreach ($tags as $tagName) {
+            // Find or create the tag
+            $tag = FinderTag::firstOrCreate(['tag' => $tagName, 'user_id' => Auth::id()]);
+
+            // Attach the tag to the item with user_id
+            $item->tags()->attach($tag->id, ['user_id' => Auth::id()]);
+        }
+        return Redirect::route('finder.show.list')->with('success', 'Item Updated successfully');
+        
+
+    }
+
+    private function formatTags($all_items)
+    {
         $formattedItems = [];
-        foreach ($items as $item) {
+        foreach ($all_items as $item) {
             $formattedTags = [];
             foreach ($item->tags as $tag) {
                 $formattedTags[] = [
                     'id' => $tag->id,
                     'name' => $tag->tag,
-                    // Add any other necessary properties for the tag
                 ];
             }
             $formattedItems[] = [
@@ -88,10 +147,7 @@ class FinderItemsController extends Controller
                 'tags' => $formattedTags,
             ];
         }
-    
-        return inertia('Finder/List', [
-            'items' => $formattedItems
-        ]);
+        return $formattedItems;
     }
     
 }

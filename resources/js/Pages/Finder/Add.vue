@@ -62,9 +62,9 @@ export default {
     methods: {
         submit() {
             router.post(route('finder.create'), this.form, {
-                onSuccess: () => {
-                    this.resetForm();
-                },
+                // onSuccess: () => {
+                //     this.resetForm();
+                // },
             });
         },
         addTag() {
@@ -74,7 +74,7 @@ export default {
             }
         },
         removeTag(index) {
-            this.tags.splice(index, 1);
+            this.form.tags.splice(index, 1);
         },
         resetForm() {
             this.form.itemName = '';

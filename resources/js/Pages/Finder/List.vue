@@ -51,7 +51,7 @@
                     </div>
                 </td>
                 <td class="text-sm text-gray-200 px-4 py-2 border-b border-gray-500 flex justify-end">
-                    <Link class="mr-2 cursor-pointer text-blue-500 hover:text-blue-700" :href="route('finder.show.edit', {id:item.id} )" method="PATCH" as="Button">
+                    <Link class="mr-2 cursor-pointer text-blue-500 hover:text-blue-700" :href="route('finder.show.edit', {id:item.id} )" method="GET" as="Button">
                         <i class="fas fa-edit"></i>
                     </Link>
                     <span class="cursor-pointer text-red-500 hover:text-red-700" @click="deleteItem(item.id)">

@@ -69,7 +69,7 @@ export default {
         },
         addTag() {
             if (this.tagInput.trim() !== '') {
-                this.form.tags.push(this.tagInput.trim());
+                this.form.tags.push(this.tagInput.trim().toLocaleLowerCase());
                 this.tagInput = '';
             }
         },

@@ -123,9 +123,9 @@ class FinderItemsController extends Controller
         $item = FinderItem::find($request->id);
 
         $item->item = $validatedData['itemName'];
-        $item->item_description = $validatedData['itemDescription'];
+        $item->item_description = $validatedData['itemDescription'] ?? null;
         $item->location = $validatedData['location'];
-        $item->location_description = $validatedData['locationDescription'];
+        $item->location_description = $validatedData['locationDescription'] ?? null;
         $item->save();
         $item->tags()->detach();
         $tags = $validatedData['tags'];
@@ -138,8 +138,6 @@ class FinderItemsController extends Controller
         }
         return Redirect::route('finder')->with('success', 'Item Updated successfully');
     }
-
-
 
     public function searchItem(Request $request)
     {
@@ -169,4 +167,21 @@ class FinderItemsController extends Controller
         ]);
     }
     
+    public function sortByTags(Request $request)
+    {
+        $tag_id = $request->id;
+
+        $items = FinderItem::with('tags')
+        ->whereHas('tags', function ($query) use ($tag_id) {
+            $query->where('finder_tags.id', $tag_id);
+        })
+        ->get();
+        Log::info($items);
+
+        $formattedItems = $this->formatTags($items);
+        Log::info($formattedItems);
+        return inertia('Finder/Index', [
+            'items' => $formattedItems
+        ]);
+    }
 }

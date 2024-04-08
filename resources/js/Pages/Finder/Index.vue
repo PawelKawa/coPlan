@@ -27,7 +27,7 @@
                 </div>
                 <div class="w-48 truncate">{{ item.location_description }}</div>
                 <div class="flex flex-wrap gap-1">
-                    <div v-for="(tag, index) in item.tags" :key="index" class="px-2 py-1 text-xs rounded-full bg-gray-500 text-white cursor-pointer truncate" @click="showItemsWithTag(tag.id)">
+                    <div v-for="(tag, index) in item.tags" :key="index" class="px-2 py-1 text-xs rounded-full bg-gray-500 text-white cursor-pointer truncate" @click="showItemsWithTag(tag.id, tag.name)">
                         {{ tag.name }}
                     </div>
                 </div>
@@ -42,7 +42,7 @@
             </li>
         </ul>
     </div>
-    
+
 </template>
 
 
@@ -57,6 +57,9 @@ export default {
     },
     props: {
         items: Array,
+        errors: Object, // im not using this, but getting warnings from vue
+        flash: Object, // im not using this, but getting warnings from vue
+        user: String, // im not using this, but getting warnings from vue
     },
     data() {
         return {
@@ -71,9 +74,13 @@ export default {
                 this.$page.props.flash.info = 'Type 3 characters at leaset to search'
             }
         },
-        showItemsWithTag(id) {
-            console.log(id);
+        showItemsWithTag(id, name) {
+            // Make a POST request to the backend
+            router.post(route('finder.tags', {name : name}), {
+                id: id,
+            });
         },
+
         showItemsInLocation(location) {
             console.log(location);
         },

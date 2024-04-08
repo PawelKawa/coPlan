@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/finder/edit/{id}', [FinderItemsController::class, 'showEditItem'])->name('finder.show.edit');
     Route::patch('/finder/update', [FinderItemsController::class, 'updateItem'])->name('finder.update');
     Route::get('/finder/search', [FinderItemsController::class, 'searchItem'])->name('finder.search');
+    Route::post('/finder/tags/{name}', [FinderItemsController::class, 'sortByTags'])->name('finder.tags');
 
 });
 

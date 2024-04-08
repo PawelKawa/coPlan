@@ -148,6 +148,7 @@ class FinderItemsController extends Controller
         ->where('user_id', Auth::id())
         ->where(function ($query) use ($search) {
             $query->where('item', 'LIKE', '%' . $search . '%')
+                ->orWhere('location', 'LIKE', '%' . $search . '%')
                 ->orWhereHas('tags', function ($query) use ($search) {
                     $query->where('tag', 'LIKE', '%' . $search . '%');
                 });

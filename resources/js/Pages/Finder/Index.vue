@@ -7,7 +7,7 @@
         <input type="text" id="search" class="p-1" v-model="search" placeholder="Search with at least 3 characters">
         <button type="submit">Search</button>
     </form>
-
+    
     <div class="w-full overflow-x-auto px-2">
         <ul class="mt-4 w-full border border-gray-400 text-white shadow-md rounded-lg">
             <li class="flex items-center px-4 py-2 border-b border-white gap-1">
@@ -75,8 +75,10 @@ export default {
             }
         },
         showItemsWithTag(id, name) {
-            // Make a POST request to the backend
-            router.post(route('finder.tags', {name : name}), {
+            // name is passed to url /finder/tags/{name} -> web.php and id to backend
+            // i could use only name to search by name instead of id... as it is causing issues when refreshing page due to browser default method is GET
+            // now it is not throwing error but not fetching data propely
+            router.post(route('finder.tags', { name: name }), {
                 id: id,
             });
         },

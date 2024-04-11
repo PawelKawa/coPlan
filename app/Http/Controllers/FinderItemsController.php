@@ -37,13 +37,12 @@ class FinderItemsController extends Controller
     public function finder(Request $request)
     {
         $items = FinderItem::with('tags')->where('user_id', Auth::id())->get();
-    
+
         $formattedItems = $this->formatTags($items);
 
         return inertia('Finder/Index', [
             'items' => $formattedItems
         ]);
-
     }
     public function showAddItem(Request $request)
     {
@@ -52,9 +51,9 @@ class FinderItemsController extends Controller
     public function showEditItem(Request $request)
     {
         $item = FinderItem::with('tags')->find($request->id);
-    
+
         $formattedTags = $item->tags->pluck('tag');
-    
+
         $formattedItem = [
             'id' => $item->id,
             'item' => $item->item,
@@ -63,7 +62,7 @@ class FinderItemsController extends Controller
             'location_description' => $item->location_description,
             'tags' => $formattedTags,
         ];
-    
+
         return inertia('Finder/Edit', [
             'item' => $formattedItem
         ]);
@@ -105,7 +104,8 @@ class FinderItemsController extends Controller
         return Redirect::route('finder')->with('success', 'Item added successfully');
     }
 
-    public function updateItem(Request $request){
+    public function updateItem(Request $request)
+    {
         $validatedData = $request->validate(
             [
                 'itemName' => 'required|string',
@@ -145,38 +145,37 @@ class FinderItemsController extends Controller
 
         //provided by tabnine AI
         $items = FinderItem::with('tags')
-        ->where('user_id', Auth::id())
-        ->where(function ($query) use ($search) {
-            $query->where('item', 'LIKE', '%' . $search . '%')
-                ->orWhere('location', 'LIKE', '%' . $search . '%')
-                ->orWhereHas('tags', function ($query) use ($search) {
-                    $query->where('tag', 'LIKE', '%' . $search . '%');
-                });
-        })
-        ->get();
+            ->where('user_id', Auth::id())
+            ->where(function ($query) use ($search) {
+                $query->where('item', 'LIKE', '%' . $search . '%')
+                    ->orWhere('location', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('tags', function ($query) use ($search) {
+                        $query->where('tag', 'LIKE', '%' . $search . '%');
+                    });
+            })
+            ->get();
         // $items = FinderItem::with('tags')->where('user_id', Auth::id())->where('item', 'LIKE', '%'. $search. '%')->get();
 
         $formattedItems = $this->formatTags($items);
 
-        if($items->isEmpty()){
+        if ($items->isEmpty()) {
             Log::info('not found');
             return redirect()->back()->with('info', 'Found nothing...');
-
         }
         return inertia('Finder/Index', [
             'items' => $formattedItems
         ]);
     }
-    
+
     public function sortByTags(Request $request)
     {
         $tag_id = $request->id;
 
         $items = FinderItem::with('tags')
-        ->whereHas('tags', function ($query) use ($tag_id) {
-            $query->where('finder_tags.id', $tag_id);
-        })
-        ->get();
+            ->whereHas('tags', function ($query) use ($tag_id) {
+                $query->where('finder_tags.id', $tag_id);
+            })
+            ->get();
         Log::info($items);
 
         $formattedItems = $this->formatTags($items);
@@ -191,9 +190,9 @@ class FinderItemsController extends Controller
         $location = $request->location;
 
         $items = FinderItem::with('tags')
-        ->where('user_id', Auth::id())
-        ->where('location', $location)
-        ->get();
+            ->where('user_id', Auth::id())
+            ->where('location', $location)
+            ->get();
         Log::info($items);
 
         $formattedItems = $this->formatTags($items);
@@ -210,5 +209,35 @@ class FinderItemsController extends Controller
         $item->tags()->detach();
         $item->delete();
         return Redirect::route('finder')->with('success', 'Item Deleted successfully');
+    }
+
+    public function showLocations()
+    {
+        $locations = FinderItem::distinct('location')->where('user_id', Auth::id())->get(['location']);
+        $all_locations = $locations->pluck('location')->toArray();
+
+        return inertia('Finder/Locations', [
+            'locations' => $all_locations,
+        ]);
+    }
+
+    public function updateLocation(Request $request)
+    {
+        $old_location = $request->oldLocation;
+        $new_location = $request->newLocation;
+
+        FinderItem::where('location', $old_location)
+            ->where('user_id', Auth::id())
+            ->update(['location' => $new_location]);
+
+        return Redirect::route('finder')->with('success', 'Location Updated successfully');
+    }
+
+    public function showTags()
+    {
+        $tags = FinderTag::all();
+        return inertia('Finder/Tags', [
+            'tags' => $tags
+        ]);
     }
 }

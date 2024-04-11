@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/work', [WorkController::class, 'work'])->name('work');
 
     Route::get('/finder', [FinderItemsController::class, 'finder'])->name('finder');
-    Route::get('/finder/add', [FinderItemsController::class, 'showAddItem'])->name('finder.show.add');
+    Route::get('/finder/item', [FinderItemsController::class, 'showAddItem'])->name('finder.show.add');
     Route::post('/finder/create', [FinderItemsController::class, 'createItem'])->name('finder.create');
     Route::get('/finder/edit/{id}', [FinderItemsController::class, 'showEditItem'])->name('finder.show.edit');
     Route::patch('/finder/update', [FinderItemsController::class, 'updateItem'])->name('finder.update');
@@ -43,6 +43,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::match(['get', 'post'],'/finder/tags/{tag}', [FinderItemsController::class, 'sortByTags'])->name('finder.tags'); // not posting/saving anything, just using post so to url is passed only name and to backend id
     Route::get('/finder/location/{location}', [FinderItemsController::class, 'sortByLocation'])->name('finder.location');
     Route::delete('/finder/delete/{id}', [FinderItemsController::class, 'deleteItem'])->name('finder.delete');
+    Route::get('/finder/locations', [FinderItemsController::class, 'showLocations'])->name('finder.show.locations');
+    Route::put('/finder/locations/update', [FinderItemsController::class, 'updateLocation'])->name('finder.update.location');
+    Route::get('/finder/tags', [FinderItemsController::class, 'showTags'])->name('finder.show.tags');
+
 
 });
 

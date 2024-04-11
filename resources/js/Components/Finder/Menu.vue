@@ -2,6 +2,8 @@
         <div class="flex justify-around w-full max-w-md mx-auto">
             <Link :href="route('finder')">List of items</Link>
             <Link :href="route('finder.show.add')">Add item</Link>
+            <Link :href="route('finder.show.locations')">Edit location</Link>
+            <Link :href="route('finder.show.tags')">Edit tags</Link>
         </div>
 </template>
 

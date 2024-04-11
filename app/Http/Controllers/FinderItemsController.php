@@ -185,4 +185,30 @@ class FinderItemsController extends Controller
             'items' => $formattedItems
         ]);
     }
+
+    public function sortByLocation(Request $request)
+    {
+        $location = $request->location;
+
+        $items = FinderItem::with('tags')
+        ->where('user_id', Auth::id())
+        ->where('location', $location)
+        ->get();
+        Log::info($items);
+
+        $formattedItems = $this->formatTags($items);
+        Log::info($formattedItems);
+
+        return inertia('Finder/Index', [
+            'items' => $formattedItems
+        ]);
+    }
+
+    public function deleteItem(Request $request)
+    {
+        $item = FinderItem::find($request->id);
+        $item->tags()->detach();
+        $item->delete();
+        return Redirect::route('finder')->with('success', 'Item Deleted successfully');
+    }
 }

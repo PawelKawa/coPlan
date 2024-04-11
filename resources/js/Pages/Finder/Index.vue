@@ -7,7 +7,7 @@
         <input type="text" id="search" class="p-1" v-model="search" placeholder="Search with at least 3 characters">
         <button type="submit">Search</button>
     </form>
-    
+
     <div class="w-full overflow-x-auto px-2">
         <ul class="mt-4 w-full border border-gray-400 text-white shadow-md rounded-lg">
             <li class="flex items-center px-4 py-2 border-b border-white gap-1">
@@ -35,7 +35,7 @@
                     <Link class="text-blue-500 hover:text-blue-700" :href="route('finder.show.edit', { id: item.id })" method="GET" as="Button">
                     <i class="fas fa-edit"></i>
                     </Link>
-                    <span class="text-red-500 hover:text-red-700 cursor-pointer" @click="deleteItem(item.id)">
+                    <span class="text-red-500 hover:text-red-700 cursor-pointer" @click="deleteItem(item.id, item.item)">
                         <i class="fas fa-trash-alt"></i>
                     </span>
                 </div>
@@ -78,19 +78,18 @@ export default {
             // name is passed to url /finder/tags/{name} -> web.php and id to backend
             // i could use only name to search by name instead of id... as it is causing issues when refreshing page due to browser default method is GET
             // now it is not throwing error but not fetching data propely
-            router.post(route('finder.tags', { name: name }), {
+            router.post(route('finder.tags', { tag: name }), {
                 id: id,
             });
         },
 
         showItemsInLocation(location) {
-            console.log(location);
+            router.get(route('finder.location', { location: location }));
         },
-        editItem(id) {
-            console.log(id);
-        },
-        deleteItem(id) {
-            console.log(id);
+        deleteItem(id, name) {
+            if (window.confirm("Are you sure you want to delete" + " " + name + "?")) {
+                router.delete(route('finder.delete', { id: id }));
+            }
         },
     }
 };

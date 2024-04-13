@@ -4,7 +4,7 @@
 
     <form @submit.prevent="submit" class="flex justify-center items-center mt-4 gap-4">
         <label for="search">Search for item:</label>
-        <input type="text" id="search" class="p-1" v-model="search" placeholder="Search with at least 3 characters">
+        <input type="text" id="search" class="p-1" v-model="search" placeholder="Search with 3+ chars">
         <button type="submit">Search</button>
     </form>
 

@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::put('/finder/locations/update', [FinderItemsController::class, 'updateLocation'])->name('finder.update.location');
     Route::get('/finder/tags', [FinderItemsController::class, 'showTags'])->name('finder.show.tags');
     Route::put('/finder/tags/update', [FinderItemsController::class, 'updateTag'])->name('finder.update.tag');
+    Route::delete('/finder/tags/delete/{tag}', [FinderItemsController::class, 'deleteTag'])->name('finder.delete.tag');
 
 
 });

@@ -8,7 +8,7 @@
                 <span class="w-full mr-4 text-white">{{ tag }}</span>
                 <div class="flex gap-4">
                     <button @click="editTag(index)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Edit</button>
-                    <button @click="deleteTag(index)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Delete</button>
+                    <button @click="deleteTag(tag)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Delete</button>
                 </div>
             </li>
         </ul>
@@ -49,8 +49,10 @@ export default {
         };
     },
     methods: {
-        removeLocation(location) {
-            console.log("Removing location", location);
+        deleteTag(tag) {
+            if (window.confirm(`Are you sure you want to delete this tag: ${tag} ? Deleting it will detach the tag from all associated items. Proceed with deletion?`)) {
+                router.delete(route('finder.delete.tag', { tag: tag }));
+            }
         },
         editTag(index) {
             this.showEditModal = true;

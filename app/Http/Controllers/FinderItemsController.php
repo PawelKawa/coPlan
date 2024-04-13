@@ -250,4 +250,11 @@ class FinderItemsController extends Controller
 
         return Redirect::route('finder')->with('success', 'Tag Updated successfully');
     }
+
+    public function deleteTag(Request $request)
+    {
+        $tag = FinderTag::where('tag', $request->tag);
+        $tag->delete();
+        return Redirect::route('finder')->with('success', 'Tag Deleted successfully');
+    }
 }

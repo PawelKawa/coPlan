@@ -27,7 +27,7 @@
                 </div>
                 <div class="w-48 truncate">{{ item.location_description }}</div>
                 <div class="flex flex-wrap gap-1">
-                    <div v-for="(tag, index) in item.tags" :key="index" class="px-2 py-1 text-xs rounded-full bg-gray-500 text-white cursor-pointer truncate" @click="showItemsWithTag(tag.id, tag.name)">
+                    <div v-for="(tag, index) in item.tags" :key="index" class="px-2 py-1 text-xs rounded-full bg-gray-500 text-white cursor-pointer truncate" @click="showItemsWithTag(tag.name)">
                         {{ tag.name }}
                     </div>
                 </div>
@@ -74,15 +74,12 @@ export default {
                 this.$page.props.flash.info = 'Type 3 characters at leaset to search'
             }
         },
-        showItemsWithTag(id, name) {
+        showItemsWithTag(tag) {
             // name is passed to url /finder/tags/{name} -> web.php and id to backend
             // i could use only name to search by name instead of id... as it is causing issues when refreshing page due to browser default method is GET
             // now it is not throwing error but not fetching data propely
-            router.post(route('finder.tags', { tag: name }), {
-                id: id,
-            });
+            router.get(route('finder.tags', { tag: tag }));
         },
-
         showItemsInLocation(location) {
             router.get(route('finder.location', { location: location }));
         },

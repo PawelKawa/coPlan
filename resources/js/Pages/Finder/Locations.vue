@@ -4,8 +4,11 @@
 
         <h1 class="text-2xl font-bold mb-4 mt-8">Edit Locations</h1>
         <ul class="list-none space-y-4">
-            <li v-for="location, index in locations" :key="index" class="flex items-center border border-gray-300 rounded-md p-4 shadow-sm">
-                <span class="w-full mr-4 text-white">{{ location }}</span>
+            <li v-for="location, index in locations" :key="index" class="flex items-center justify-between border border-gray-300 rounded-md p-4 shadow-sm">
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 text-xs rounded-full bg-gray-500 text-white truncate cursor-pointer" @click="showItemsInLocation(location.location)">{{ location.location }}</span>
+                    <span class=" text-white"> with {{ location.count }} items</span>
+                </div>
                 <button @click="editingLocationIndex(index)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Edit</button>
             </li>
         </ul>
@@ -73,6 +76,9 @@ export default {
                 newLocation: this.editedLocation
             }));
             this.hideEditModal();
+        },
+        showItemsInLocation(location) {
+            router.get(route('finder.location', { location: location }));
         },
     },
 };

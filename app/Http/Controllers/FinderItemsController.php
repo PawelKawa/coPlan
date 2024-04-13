@@ -169,11 +169,10 @@ class FinderItemsController extends Controller
 
     public function sortByTags(Request $request)
     {
-        $tag_id = $request->id;
-
+        $tag = $request->tag;
         $items = FinderItem::with('tags')
-            ->whereHas('tags', function ($query) use ($tag_id) {
-                $query->where('finder_tags.id', $tag_id);
+            ->whereHas('tags', function ($query) use ($tag) {
+                $query->where('finder_tags.tag', $tag);
             })
             ->get();
 
@@ -210,12 +209,15 @@ class FinderItemsController extends Controller
 
     public function showLocations()
     {
-        $locations = FinderItem::distinct('location')->where('user_id', Auth::id())->orderBy('location', 'asc')->get(['location']);
-        $all_locations = $locations->pluck('location')->toArray();
+        $locationsWithCounts = FinderItem::selectRaw('location, COUNT(*) as count')
+        ->where('user_id', Auth::id())
+        ->groupBy('location')
+        ->orderBy('location', 'asc')
+        ->get();
 
-        return inertia('Finder/Locations', [
-            'locations' => $all_locations,
-        ]);
+    return inertia('Finder/Locations', [
+        'locations' => $locationsWithCounts,
+    ]);
     }
 
     public function updateLocation(Request $request)

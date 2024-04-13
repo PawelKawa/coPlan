@@ -1,15 +1,12 @@
 <template>
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold mb-4">Edit Locations</h1>
+    <div class="w-full max-w-md mx-auto">
+        <FinderMenu></FinderMenu>
+
+        <h1 class="text-2xl font-bold mb-4 mt-8">Edit Locations</h1>
         <ul class="list-none space-y-4">
             <li v-for="location, index in locations" :key="index" class="flex items-center border border-gray-300 rounded-md p-4 shadow-sm">
                 <span class="w-full mr-4">{{ location }}</span>
-                <button @click="editingLocationIndex(index)" class="text-blue-500 hover:text-blue-700 focus:outline-none">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button @click="removeLocation(location)" class="ml-4 text-red-500 hover:text-red-700 focus:outline-none">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
+                <button @click="editingLocationIndex(index)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Edit</button>
             </li>
         </ul>
 
@@ -20,20 +17,25 @@
                 <p class="mt-4" v-if="locationError">This location already exist.</p>
                 <div class="flex justify-between mt-4">
                     <button @click="hideEditModal" class="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-md shadow-sm focus:outline-none">Cancel</button>
-                    <button @click="saveLocation" class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Save</button>
+                    <button @click="saveLocation" class="bg-green-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Save</button>
                 </div>
-
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
 import { router } from '@inertiajs/vue3';
+import FinderMenu from "@/Components/Finder/Menu.vue"
+
 export default {
     name: "EditLocations",
     props: {
         locations: Array,
+    },
+    components: {
+        FinderMenu,
     },
     data() {
         return {

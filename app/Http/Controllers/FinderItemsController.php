@@ -159,7 +159,7 @@ class FinderItemsController extends Controller
         $formattedItems = $this->formatTags($items);
 
         if ($items->isEmpty()) {
-            Log::info('not found');
+
             return redirect()->back()->with('info', 'Found nothing...');
         }
         return inertia('Finder/Index', [
@@ -176,10 +176,9 @@ class FinderItemsController extends Controller
                 $query->where('finder_tags.id', $tag_id);
             })
             ->get();
-        Log::info($items);
 
         $formattedItems = $this->formatTags($items);
-        Log::info($formattedItems);
+
         return inertia('Finder/Index', [
             'items' => $formattedItems
         ]);
@@ -193,10 +192,8 @@ class FinderItemsController extends Controller
             ->where('user_id', Auth::id())
             ->where('location', $location)
             ->get();
-        Log::info($items);
 
         $formattedItems = $this->formatTags($items);
-        Log::info($formattedItems);
 
         return inertia('Finder/Index', [
             'items' => $formattedItems
@@ -213,7 +210,7 @@ class FinderItemsController extends Controller
 
     public function showLocations()
     {
-        $locations = FinderItem::distinct('location')->where('user_id', Auth::id())->get(['location']);
+        $locations = FinderItem::distinct('location')->where('user_id', Auth::id())->orderBy('location', 'asc')->get(['location']);
         $all_locations = $locations->pluck('location')->toArray();
 
         return inertia('Finder/Locations', [
@@ -235,9 +232,22 @@ class FinderItemsController extends Controller
 
     public function showTags()
     {
-        $tags = FinderTag::all();
+        $tags = FinderTag::where('user_id', Auth::id())->orderBy('tag', 'asc')->get(['tag']);
+        $all_tags = $tags->pluck('tag')->toArray();
+
         return inertia('Finder/Tags', [
-            'tags' => $tags
+            'tags' => $all_tags
         ]);
+    }
+
+    public function updateTag(Request $request)
+    {
+        $old_tag = $request->oldTag;
+        $new_tag = $request->newTag;
+        FinderTag::where('tag', $old_tag)
+            ->where('user_id', Auth::id())
+            ->update(['tag' => $new_tag]);
+
+        return Redirect::route('finder')->with('success', 'Tag Updated successfully');
     }
 }

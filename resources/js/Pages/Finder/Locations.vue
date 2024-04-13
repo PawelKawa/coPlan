@@ -5,7 +5,7 @@
         <h1 class="text-2xl font-bold mb-4 mt-8">Edit Locations</h1>
         <ul class="list-none space-y-4">
             <li v-for="location, index in locations" :key="index" class="flex items-center border border-gray-300 rounded-md p-4 shadow-sm">
-                <span class="w-full mr-4">{{ location }}</span>
+                <span class="w-full mr-4 text-white">{{ location }}</span>
                 <button @click="editingLocationIndex(index)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Edit</button>
             </li>
         </ul>
@@ -17,7 +17,7 @@
                 <p class="mt-4" v-if="locationError">This location already exist.</p>
                 <div class="flex justify-between mt-4">
                     <button @click="hideEditModal" class="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded-md shadow-sm focus:outline-none">Cancel</button>
-                    <button @click="saveLocation" class="bg-green-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Save</button>
+                    <button @click="updateLocation" class="bg-green-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Save</button>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@ export default {
             this.editedIndex = null;
             this.editedLocation = "";
         },
-        saveLocation() {
+        updateLocation() {
             const isDuplicate = this.locations.some(location => location.toLowerCase() === this.editedLocation.toLowerCase());
             if (isDuplicate) {
                 this.locationError = true;
@@ -73,11 +73,6 @@ export default {
                 newLocation: this.editedLocation
             }));
             this.hideEditModal();
-        },
-        saveLocationsToBackend(locations) {
-            // Replace this with your actual backend communication logic (e.g., using Axios or Fetch API)
-            // This is just a placeholder for demonstration
-            console.log("Saving locations to backend:", locations);
         },
     },
 };
